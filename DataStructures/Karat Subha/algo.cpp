@@ -3,34 +3,33 @@
 #include <string>
 using namespace std;
 
-int KaratSuba(int x, int y) {
-    // Base case
-    if (x < 10 || y < 10) {
+long long karatsuba(long long x, long long y)
+{
+    //
+    if (x < 10 && y < 10)
+    {
         return x * y;
     }
+    long long n = max((long long)to_string(x).length(), (long long)to_string(y).length());
+    long long m = n / 2;
+    long long power = pow(10, m);
 
-    // Find the maximum length of digits
-    int n = max(to_string(x).length(), to_string(y).length());
-    int m = n / 2;  
+    long long a = x / power;  
+    long long b = x % power;
+    long long c = y / power;
+    long long d = y % power;
 
-    // Split numbers
-    int highX = x / (int)pow(10, m);
-    int lowX  = x % (int)pow(10, m);
-    int highY = y / (int)pow(10, m);
-    int lowY  = y % (int)pow(10, m);
+    long long ac = karatsuba(a, c);
+    long long bd = karatsuba(b, d);
+    long long bracket = karatsuba(a + b, c + d);
 
-    // Recursive multiplications
-    int z0 = KaratSuba(lowX, lowY);
-    int z2 = KaratSuba(highX, highY);
-    int z1 = KaratSuba(highX + lowX, highY + lowY);
-
-    // Karatsuba formula: ac*10^2m + (a+b)(c+d)*10^m + bd
-    return z2 * pow(10, 2 * m) + (z1 - z2 - z0) * pow(10, m) + z0;
+    return ac * pow(10, 2 * m) + bracket * pow(10, m) + bd;
 }
 
-int main() {
-    int a = 1234, b = 5678;
-    cout << "Karatsuba multiplication: " << KaratSuba(a, b) << endl;
-    cout << "Normal multiplication:    " << (a * b) << endl;
+int main()
+{
+    long long x = 123456, y = 234567;
+    long long res = karatsuba(x, y);
+    cout << "Product is: " << res << endl;
     return 0;
 }

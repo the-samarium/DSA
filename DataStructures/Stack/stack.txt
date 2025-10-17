@@ -1,0 +1,6 @@
+Stack has 3 types of conversions for arithmatic operations
+1. Prefix: operators pre operands : *98/7*8+9-11
+2. Infix : operators in between operands: (9*8)/(7*8) +9 -11
+3. Postfix: operators post operands: 98+34-22*
+
+//Priority order: ^ -> * / -> + -
